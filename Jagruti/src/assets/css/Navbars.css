@@ -218,6 +218,7 @@ button.donate-btn{
     }
 .nav-links .nav-link::after{
     left:0;
+    width: 35%;
     transform:scaleX(0);
     transform-origin:left;
 }

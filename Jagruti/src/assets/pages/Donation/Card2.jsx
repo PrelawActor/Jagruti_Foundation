@@ -20,7 +20,7 @@ const DonationImpact = () => {
 
         <div className="impact-line"></div>
 
-        <Row className="justify-content-center g-4 mt-4">
+        <Row className="justify-content-center g-4">
 
           <Col lg={3} md={6}>
             <div className="impact-card">

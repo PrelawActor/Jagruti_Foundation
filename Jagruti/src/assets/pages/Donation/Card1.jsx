@@ -19,7 +19,7 @@ const DonationMatters = () => {
 
         <div className="heading-line"></div>
 
-        <Row className="justify-content-center g-4 mt-4">
+        <Row className="justify-content-center g-4">
 
           <Col lg={4} md={6}>
             <div className="donation-card">

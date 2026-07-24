@@ -10,6 +10,7 @@ import Card1 from './assets/pages/Donation/Card1.jsx';
 import Card2 from './assets/pages/Donation/Card2.jsx';
 import Donation from './assets/pages/Donation/Donation.jsx'
 import Cards3 from './assets/pages/Donation/Cards3.jsx'
+import Footer from './assets/pages/Donation/Footer.jsx'
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
       <Card2/>
       <Donation />
       <Cards3 />
+      <Footer />
     </>
   )
 }
