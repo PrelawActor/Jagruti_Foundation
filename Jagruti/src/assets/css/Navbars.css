@@ -216,15 +216,28 @@ button.donate-btn{
         gap: 4px;
         padding: 10px;
     }
-    .nav-links .nav-link::after{
-    left: 0%;
-    transform-origin: center;
+.nav-links .nav-link::after{
+    left:0;
+    transform:scaleX(0);
+    transform-origin:left;
+}
 
+.nav-links .nav-link:hover::after{
+    transform:scaleX(1);
 }
 }
 @media (min-width:426px) and (max-width:1200px)
 {
+.nav-links .nav-link::after{
+    left:0;
+    width: 15%;
+    transform:scaleX(0);
+    transform-origin:left;
+}
 
+.nav-links .nav-link:hover::after{
+    transform:scaleX(1);
+}
     .navbar.custom-navbar
     {
         position:relative;
