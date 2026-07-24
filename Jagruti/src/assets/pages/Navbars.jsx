@@ -8,8 +8,8 @@ import logo from "../logo.png";
 
 function CustomNavbar() {
   return (
-    <Navbar expand="lg" className="custom-navbar">
-      <Container fluid>
+    <Navbar expand="xl" className="custom-navbar">
+      <Container fluid className="px-3">
 
         {/* Logo + Title */}
 
@@ -34,7 +34,7 @@ function CustomNavbar() {
 
         </Navbar.Brand>
         {/* Mobile */}
-        <div className="d-lg-none">
+        <div className="d-xl-none">
           <div className="right-control">
 
           <div className="right-section">
@@ -55,7 +55,7 @@ function CustomNavbar() {
           <Nav className="mx-auto nav-links">
 
             <Nav.Link href="#" >Home</Nav.Link>
-            <Nav.Link href="#" className="active-tab" >
+            <Nav.Link href="#" >
               About Us
             </Nav.Link>
             <Nav.Link href="#" >Programs</Nav.Link>
@@ -66,7 +66,7 @@ function CustomNavbar() {
 
 
         </Navbar.Collapse>
-        <div className="d-none d-lg-flex">
+        <div className="d-none d-xl-flex">
           <div className="right-section">
 
             <Button className="donate-btn">
