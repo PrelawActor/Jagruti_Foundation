@@ -1,5 +1,11 @@
 import React from "react";
-import { Navbar, Nav, Container, Button } from "react-bootstrap";
+import {
+  Navbar,
+  Nav,
+  Container,
+  Button,
+  Dropdown
+} from "react-bootstrap";
 import { FaGlobe } from "react-icons/fa";
 import { FaRegHeart } from "react-icons/fa6";
 
@@ -9,7 +15,7 @@ import logo from "../logo.png";
 function CustomNavbar() {
   return (
     <Navbar expand="xl" className="custom-navbar">
-      <Container fluid className="px-3">
+      <Container className="px-0">
 
         {/* Logo + Title */}
 

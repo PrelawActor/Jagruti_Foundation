@@ -7,16 +7,18 @@
 .navbar.custom-navbar{
     position: absolute;
     z-index: 1000;
-    top: 5px;
-    left: 50%;
-    transform: translate(-50%);
-    width:1317px;
-    /* height:90px; */
+
+    top:25px;
+    left:50%;
+    transform:translateX(-50%);
+
+    width:min(92%,1317px);   /* THIS is the important part */
+
     padding:12px 14px;
     border-radius:17px;
-    background:#FFFFFF;
-    margin:25px auto 0;
-    box-shadow:0px 8px 20px rgba(0,0,0,.08);
+    background:#fff;
+
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
 }
 .navbar-collapse{
     background: #fff;
@@ -163,7 +165,7 @@ button.donate-btn{
 @media (min-width:320px) and (max-width:426px)
 {
     /* for  with underline but no seperator and also with no underline but seperator*/
-    .navbar.custom-navbar{
+    /* .navbar.custom-navbar{
     position: absolute;
     z-index: 1000;
     top: 0px;
@@ -172,7 +174,19 @@ button.donate-btn{
     width:100%;
     height:90px;
     margin-top: 0px;
-}
+} */
+ .navbar.custom-navbar{
+
+        width:95%;
+
+        left:50%;
+        transform:translateX(-50%);
+
+        top:10px;
+        margin:0;
+
+        border-radius:15px;
+    }
     .nav-links
     {
         gap: 15px;
@@ -239,15 +253,13 @@ button.donate-btn{
 .nav-links .nav-link:hover::after{
     transform:scaleX(1);
 }
-    .navbar.custom-navbar
-    {
-        position:relative;
-        top:0;
-        left:0;
-        transform:translate(0);
-        width:100%;
-        margin-top: 0px;
-    }
+.navbar.custom-navbar{
+    position:absolute;
+    top:20px;
+    left:50%;
+    transform:translateX(-50%);
+    width:min(94%,1317px);
+}
     .nav-links
     {
         gap: 15px;
@@ -290,3 +302,42 @@ button.donate-btn{
 
     }
 }
+
+    @media (min-width:1200px) and (max-width:1400px){
+
+    .nav-links{
+        gap:14px;
+    }
+
+    .nav-links .nav-link{
+        font-size:11px;
+        white-space: nowrap;
+    }
+
+    .brand-text h5{
+        font-size:15px;
+    }
+
+    .brand-text p{
+        font-size:12px;
+    }
+
+    button.donate-btn{
+        font-size:13px;
+        padding:8px 12px;
+    }
+
+    .globe-icon{
+        font-size:26px;
+    }
+    .brand-logo{
+    width:60px;
+    height:60px;
+}
+.navbar.custom-navbar
+{
+    width: auto;
+
+}
+
+    }
