@@ -13,6 +13,13 @@ import "../css/Navbars.css";
 import logo from "../logo.png";
 
 function CustomNavbar() {
+  const languages = [
+  "English",
+  "हिंदी",
+  "मराठी",
+  "தமிழ்",
+  "ગુજરાતી"
+];
   return (
     <Navbar expand="xl" className="custom-navbar">
       <Container className="px-0">
@@ -50,7 +57,22 @@ function CustomNavbar() {
               Donate
             </Button>
 
-            {/* <FaGlobe className="globe-icon" /> */}
+           <Dropdown align="end">
+  <Dropdown.Toggle
+    variant="link"
+    className="language-toggle p-0 border-0 shadow-none"
+  >
+    <FaGlobe className="globe-icon" />
+  </Dropdown.Toggle>
+
+  <Dropdown.Menu className="language-menu">
+  {languages.map((lang) => (
+    <Dropdown.Item key={lang}>
+      {lang}
+    </Dropdown.Item>
+  ))}
+</Dropdown.Menu>
+</Dropdown>
 
           </div>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -80,7 +102,22 @@ function CustomNavbar() {
               Donate
             </Button>
 
-            <FaGlobe className="globe-icon" />
+            <Dropdown align="end">
+  <Dropdown.Toggle
+    variant="link"
+    className="language-toggle p-0 border-0 shadow-none"
+  >
+    <FaGlobe className="globe-icon" />
+  </Dropdown.Toggle>
+
+<Dropdown.Menu className="language-menu">
+  {languages.map((lang) => (
+    <Dropdown.Item key={lang}>
+      {lang}
+    </Dropdown.Item>
+  ))}
+</Dropdown.Menu>
+</Dropdown>
 
           </div>
           </div>

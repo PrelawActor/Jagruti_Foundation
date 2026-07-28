@@ -47,44 +47,36 @@ const DonationFormSection = () => {
 
                 <Form>
 
-                  <div className="donation-type">
 
-                    <Form.Check
-                      inline
-                      type="radio"
-                      label="One Time"
-                      name="donationType"
-                      defaultChecked
-                    />
-
-                    <Form.Check
-                      inline
-                      type="radio"
-                      label="Monthly"
-                      name="donationType"
-                    />
-
-                  </div>
 
                   {/* Amount Buttons */}
 
-                  <div className="amount-buttons">
+                  <div className="amount-section">
 
-                    {["500","1000","2500","5000"].map((item)=>(
-                      <button variant="light" type="button"
-                        key={item}
-                        className={
-                          amount===item
-                          ? "amount-btn active"
-                          : "amount-btn"
-                        }
-                        onClick={()=>setAmount(item)}
-                      >
-                        ₹{item}
-                      </button>
-                    ))}
+  <div className="amount-buttons">
+    {["500", "1000", "2500", "5000"].map((item) => (
+      <button
+        type="button"
+        key={item}
+        className={amount === item ? "amount-btn active" : "amount-btn"}
+        onClick={() => setAmount(item)}
+      >
+        ₹{item}
+      </button>
+    ))}
+  </div>
 
-                  </div>
+  <div className="other-amount">
+    <Form.Label>Other Amount</Form.Label>
+    <Form.Control
+      type="number"
+      placeholder="₹"
+      value={amount}
+      onChange={(e) => setAmount(e.target.value)}
+    />
+  </div>
+
+</div>
 
                   <Row className="mt-4">
 

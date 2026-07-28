@@ -2,7 +2,7 @@ import React from 'react'
 import { Container, Row, Col } from "react-bootstrap";
 import { FaChild } from "react-icons/fa6";
 import "../../css/Paragraph.css"
-
+import img from '../../images/ppo.png'
 const Paragraph = () => {
   return (
     <>
@@ -10,22 +10,25 @@ const Paragraph = () => {
       <Container>
 
         <h2 className="section-title">
-          SUPPORT EDUCATION. TRANSFORM LIVES.
+          SUPPORT EDUCATION, TRANSFORM LIVES.
         </h2>
 
         <div className="title-line"></div>
 
         <Row className="align-items-center mt-5">
 
-          <Col lg={3} md={4} className="text-center mb-4 mb-md-0">
+          <Col lg={4} md={5} className="mb-4 mb-lg-0">
 
-            <div className="support-icon">
-              <FaChild />
-            </div>
+    <div className="support-image">
+        <img
+            src={img}
+            alt="Supporting children's education"
+        />
+    </div>
 
-          </Col>
+</Col>
 
-          <Col lg={9} md={8}>
+<Col lg={8} md={7}>
 
             <p>
               Education is every child's right — it's the foundation for a

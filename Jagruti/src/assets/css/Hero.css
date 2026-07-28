@@ -266,6 +266,10 @@
 
 }
 @media (min-width:992px) and (max-width:1024px){
+    .mc p
+{
+    width: 100px;
+}
     .hero-image{
 
         position: absolute;
@@ -294,4 +298,11 @@
         text-shadow: 0 2px 12px rgba(255, 255, 255, 0.8);
     }
 
+}
+@media (min-width:1024px)
+{
+    .mc p
+{
+    width: 100px;
+}
 }
