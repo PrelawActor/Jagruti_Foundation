@@ -60,17 +60,21 @@ setLoading(true);
 
     try {
 
+        // await axios.post(
+        //     "http://localhost:8080/api/donations/verify",
+        //     {
+        //         ...paymentResponse,
+        //         name,
+        //         email,
+        //         phone,
+        //         amount,
+        //         message
+        //     }
+        // );
         await axios.post(
-            "http://localhost:8080/api/donations/verify",
-            {
-                ...paymentResponse,
-                name,
-                email,
-                phone,
-                amount,
-                message
-            }
-        );
+    "http://localhost:8080/api/donations/verify",
+    paymentResponse
+);
 
         alert("Thank you for your donation!");
 
@@ -84,19 +88,19 @@ setLoading(true);
 
     }
 
-}
+},
+modal: {
+        ondismiss: function () {
+            console.log("Razorpay popup dismissed");
+            setLoading(false);
+        }
+    }
 
         };
 
         const razorpay = new window.Razorpay(options);
 
-        razorpay.on("payment.failed", function () {
-    setLoading(false);
-});
-
-razorpay.on("modal.closed", function () {
-    setLoading(false);
-});
+        
 
         razorpay.open();
 

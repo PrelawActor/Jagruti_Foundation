@@ -1,4 +1,5 @@
-const razorpay = require("../config/razorpay");
+const db = require("../Config/db");
+const razorpay = require("../Config/razorpay");
 const crypto = require("crypto");
 exports.createOrder = async (req, res) => {
 
@@ -32,19 +33,37 @@ exports.createOrder = async (req, res) => {
 
         const order = await razorpay.orders.create(options);
 
-        return res.status(200).json({
+// Save donor information into pending_donations
+await db.execute(
+    `
+    INSERT INTO pending_donations
+    (
+        razorpay_order_id,
+        name,
+        email,
+        phone,
+        amount,
+        message
+    )
+    VALUES (?, ?, ?, ?, ?, ?)
+    `,
+    [
+        order.id,
+        name,
+        email,
+        phone,
+        amount,
+        message
+    ]
+);
 
-            success: true,
-
-            key: process.env.RAZORPAY_KEY_ID,
-
-            orderId: order.id,
-
-            amount: order.amount,
-
-            currency: order.currency
-
-        });
+return res.status(200).json({
+    success: true,
+    key: process.env.RAZORPAY_KEY_ID,
+    orderId: order.id,
+    amount: order.amount,
+    currency: order.currency
+});
 
     } catch (error) {
 
@@ -65,25 +84,11 @@ exports.verifyPayment = async (req, res) => {
 
     try {
 
-        const {
-
-            razorpay_order_id,
-
-            razorpay_payment_id,
-
-            razorpay_signature,
-
-            name,
-
-            email,
-
-            phone,
-
-            amount,
-
-            message
-
-        } = req.body;
+const {
+    razorpay_order_id,
+    razorpay_payment_id,
+    razorpay_signature
+} = req.body;
 
         // Create expected signature
 
@@ -109,27 +114,58 @@ exports.verifyPayment = async (req, res) => {
         }
 
         // Payment is verified
+        const [pendingRows] = await db.execute(
+    `
+    SELECT *
+    FROM pending_donations
+    WHERE razorpay_order_id = ?
+    `,
+    [razorpay_order_id]
+);
 
-        console.log("Payment Verified Successfully");
+if (pendingRows.length === 0) {
 
-        console.log({
+    return res.status(404).json({
+        success: false,
+        message: "Pending donation not found"
+    });
 
-            name,
+}
 
-            email,
+const pendingDonation = pendingRows[0];
+await db.execute(
+    `
+    INSERT INTO donations
+    (
+        razorpay_order_id,
+        razorpay_payment_id,
+        name,
+        email,
+        phone,
+        amount,
+        message
+    )
+    VALUES (?, ?, ?, ?, ?, ?, ?)
+    `,
+    [
+        razorpay_order_id,
+        razorpay_payment_id,
+        pendingDonation.name,
+        pendingDonation.email,
+        pendingDonation.phone,
+        pendingDonation.amount,
+        pendingDonation.message
+    ]
+);
+await db.execute(
+    `
+    DELETE FROM pending_donations
+    WHERE razorpay_order_id = ?
+    `,
+    [razorpay_order_id]
+);
 
-            phone,
-
-            amount,
-
-            message,
-
-            razorpay_payment_id
-
-        });
-
-        // TODO:
-        // Save donation into MySQL here
+console.log("Donation moved successfully to donations table.");
 
         return res.status(200).json({
 
