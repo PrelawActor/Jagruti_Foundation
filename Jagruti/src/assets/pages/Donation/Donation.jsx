@@ -13,7 +13,7 @@ import axios from "axios";
 
 const DonationFormSection = () => {
 
-
+  const [loading, setLoading] = useState(false);
   const [name, setName] = useState("");
 const [email, setEmail] = useState("");
 const [phone, setPhone] = useState("");
@@ -22,7 +22,11 @@ const [message, setMessage] = useState("");
 const handleDonate = async (e) => {
 
     e.preventDefault();
-
+    if (!name || !email || !phone || !amount) {
+    alert("Please fill all required fields.");
+    return;
+}
+setLoading(true);
     try {
 
         const response = await axios.post(
@@ -36,15 +40,78 @@ const handleDonate = async (e) => {
             }
         );
 
-        alert(response.data.message);
+        const data = response.data;
+
+        const options = {
+
+            key: data.key,
+
+            amount: data.amount,
+
+            currency: data.currency,
+
+            name: "Jagruti Foundation",
+
+            description: "Donation",
+
+            order_id: data.orderId,
+
+            handler: async function (paymentResponse) {
+
+    try {
+
+        await axios.post(
+            "http://localhost:8080/api/donations/verify",
+            {
+                ...paymentResponse,
+                name,
+                email,
+                phone,
+                amount,
+                message
+            }
+        );
+
+        alert("Thank you for your donation!");
 
     } catch (error) {
+      console.error("Verification Error:", error);
+        alert("Payment verification failed.");
+
+    } finally {
+
+        setLoading(false);
+
+    }
+
+}
+
+        };
+
+        const razorpay = new window.Razorpay(options);
+
+        razorpay.on("payment.failed", function () {
+    setLoading(false);
+});
+
+razorpay.on("modal.closed", function () {
+    setLoading(false);
+});
+
+        razorpay.open();
+
+    } catch (error) {
+
+      setLoading(false);
 
         console.error(error);
 
     }
+  
 
 };
+
+
   return (
     <section className="donation-form-section">
 
@@ -172,13 +239,19 @@ const handleDonate = async (e) => {
 
                   </Row>
 
-                  <button  type="submit" className="donate-submit g-2">
-
-                    Proceed to Donate  
-
-                    <FaHeart />
-
-                  </button>
+                  <button
+    type="submit"
+    className="donate-submit g-2"
+    disabled={loading}
+>
+    {loading ? (
+        "Processing..."
+    ) : (
+        <>
+            Proceed to Donate <FaHeart />
+        </>
+    )}
+</button>
 
                 </Form>
 
