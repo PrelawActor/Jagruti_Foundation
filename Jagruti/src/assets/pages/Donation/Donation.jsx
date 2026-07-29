@@ -9,11 +9,42 @@ import {
 import "../../css/Donation.css"
 import { FaHeart } from "react-icons/fa";
 import DonationImage from "../../images/heroimg.png"; // Replace with your image
+import axios from "axios";
 
 const DonationFormSection = () => {
 
-  const [amount, setAmount] = useState("1000");
 
+  const [name, setName] = useState("");
+const [email, setEmail] = useState("");
+const [phone, setPhone] = useState("");
+const [amount, setAmount] = useState("");
+const [message, setMessage] = useState("");
+const handleDonate = async (e) => {
+
+    e.preventDefault();
+
+    try {
+
+        const response = await axios.post(
+            "http://localhost:8080/api/donations/create-order",
+            {
+                name,
+                email,
+                phone,
+                amount,
+                message
+            }
+        );
+
+        alert(response.data.message);
+
+    } catch (error) {
+
+        console.error(error);
+
+    }
+
+};
   return (
     <section className="donation-form-section">
 
@@ -45,7 +76,7 @@ const DonationFormSection = () => {
 
                 {/* Donation Type */}
 
-                <Form>
+                <Form onSubmit={handleDonate}>
 
 
 
@@ -77,7 +108,6 @@ const DonationFormSection = () => {
   </div>
 
 </div>
-
                   <Row className="mt-4">
 
                     <Col md={6}>
@@ -87,6 +117,8 @@ const DonationFormSection = () => {
 
                         <Form.Control
                           placeholder="Enter your name"
+                          value={name}
+                          onChange={(e) => setName(e.target.value)}
                         />
 
                       </Form.Group>
@@ -99,6 +131,8 @@ const DonationFormSection = () => {
 
                         <Form.Control
                           placeholder="Enter your email"
+                           value={email}
+                          onChange={(e) => setEmail(e.target.value)}
                         />
 
                       </Form.Group>
@@ -115,6 +149,8 @@ const DonationFormSection = () => {
 
                         <Form.Control
                           placeholder="Enter phone number"
+                          value={phone}
+  onChange={(e) => setPhone(e.target.value)}
                         />
 
                       </Form.Group>
@@ -127,6 +163,8 @@ const DonationFormSection = () => {
 
                         <Form.Control
                           placeholder="Write a message..."
+                          value={message}
+  onChange={(e) => setMessage(e.target.value)}
                         />
 
                       </Form.Group>
@@ -134,7 +172,7 @@ const DonationFormSection = () => {
 
                   </Row>
 
-                  <button className="donate-submit g-2">
+                  <button  type="submit" className="donate-submit g-2">
 
                     Proceed to Donate  
 
