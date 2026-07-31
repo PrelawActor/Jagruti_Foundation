@@ -8,7 +8,7 @@ import {
 } from "react-bootstrap";
 import { FaGlobe } from "react-icons/fa";
 import { FaRegHeart } from "react-icons/fa6";
-
+import { NavLink } from "react-router-dom";
 import "../css/Navbars.css";
 import logo from "../logo.png";
 
@@ -82,11 +82,11 @@ function CustomNavbar() {
 
           <Nav className="mx-auto nav-links">
 
-            <Nav.Link href="#" >Home</Nav.Link>
+            <Nav.Link href="#">Home</Nav.Link>
             <Nav.Link href="#" >
               About Us
             </Nav.Link>
-            <Nav.Link href="#" >Programs</Nav.Link>
+            <Nav.Link as={NavLink} to="/programs">Programs</Nav.Link>
             <Nav.Link href="#"  >Blog & News</Nav.Link>
             <Nav.Link href="#" >Gallery</Nav.Link>
             <Nav.Link href="#" >Contact Us</Nav.Link>
@@ -96,11 +96,12 @@ function CustomNavbar() {
         </Navbar.Collapse>
         <div className="d-none d-xl-flex">
           <div className="right-section">
-
+            <Nav.Link as={NavLink} to="/donate">
             <Button className="donate-btn">
               <FaRegHeart className="heart-icon" />
               Donate
             </Button>
+            </Nav.Link>
 
             <Dropdown align="end">
   <Dropdown.Toggle
