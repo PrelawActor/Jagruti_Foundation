@@ -5,6 +5,7 @@
   background: #050e23;
 }
 
+
 .programs-hero__bg {
   position: absolute;
   top: 0;
@@ -33,6 +34,7 @@
 }
 
 .programs-hero h1 {
+  font-family: "Poppins", sans-serif;
   margin: 0;
   color: #08154A;
   font-size: 60px;
@@ -53,6 +55,7 @@
 }
 
 .programs-hero p {
+  font-family: "Inter", sans-serif;
   max-width: 480px;
   margin: 0;
   color: #08154A;
@@ -81,7 +84,12 @@
   }
 
   .programs-hero h1 {
-    font-size: 42px;
+        font-size: 40px;
+        line-height: 1.25;
+        font-weight: 700;
+        width: auto;
+                font-family: "Poppins", sans-serif;
+            color: #08154A;
   }
 
   .programs-hero p {
@@ -95,7 +103,7 @@
   }
 
   .programs-hero__bg {
-    object-position: 70% center;
+    object-position: 2% 10%;
   }
 
   .programs-hero__content {
@@ -110,8 +118,12 @@
   }
 
   .programs-hero p {
-    font-size: 14px;
-    line-height: 1.75;
+    width: 330px;
+    font-family: "Inter", sans-serif;
+    font-size: 18px;
+    line-height: 1.8;
+    font-weight: 800;
+    color: #08154A;
   }
 }
 
@@ -124,8 +136,25 @@
     top: 130px;
   }
 
-  .programs-hero h1 {
-    font-size: 30px;
+    .programs-hero p {
+font-family: "Inter", sans-serif;
+    max-width: 270px;
+        font-size: 15px;
+        line-height: 1.81;
+        margin-top: 18px;
+        font-weight: 800;
+        color: #08154A;
   }
+  .programs-hero h1 {
+    font-size: 40px;
+        line-height: 1.25;
+        font-weight: 700;
+        width: auto;
+        font-family: "Poppins", sans-serif;
+  }
+  .programs-hero__bg {
+
+  object-position: 0% 10%;
+}
 }
 

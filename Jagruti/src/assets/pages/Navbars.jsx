@@ -51,11 +51,12 @@ function CustomNavbar() {
           <div className="right-control">
 
           <div className="right-section">
-
+            <Nav.Link as={NavLink} to="/donate">
             <Button className="donate-btn">
               <FaRegHeart className="heart-icon" />
               Donate
             </Button>
+            </Nav.Link>
 
            <Dropdown align="end">
   <Dropdown.Toggle
