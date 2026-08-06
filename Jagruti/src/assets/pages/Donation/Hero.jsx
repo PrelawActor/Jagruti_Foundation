@@ -40,25 +40,33 @@ const Hero = () => {
                <Row className="MiniCard mt-lg-3 justify-content-center justify-content-lg-start g-4 " >
 
     <Col xs="3" lg="auto" className="mc  ">
+    <div className='stickercontainer'>
         <FaUsers className="sticker"/>
+        </div>
                   <h3>200+</h3>
                   <p>Lives Impacted</p>
     </Col>
 
     <Col xs="3" lg="auto" className="mc ">
+    <div className='stickercontainer'>
          <FaHeart className="sticker" />
+         </div>
                   <h3>500+</h3>
                   <p>Donors</p>
     </Col>
 
     <Col xs="3" lg="auto" className="mc ">
+    <div className='stickercontainer'>
         <FaBookOpen className="sticker" />
+        </div>
                   <h3>25+</h3>
                   <p>Programs</p>
     </Col>
 
     <Col xs="3" lg="auto" className="mc ">
+    <div className='stickercontainer'>
        <FaGlobe className="sticker" />
+       </div>
                   <h3>8+</h3>
                   <p>Years of Service</p>
     </Col>

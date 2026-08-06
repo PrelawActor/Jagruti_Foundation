@@ -57,6 +57,7 @@
 .programs-hero p {
   font-family: "Inter", sans-serif;
   max-width: 480px;
+  font-weight: 800;
   margin: 0;
   color: #08154A;
   font-size: 16px;
@@ -94,6 +95,7 @@
 
   .programs-hero p {
     font-size: 15px;
+    width: 300px;
   }
 }
 
@@ -157,4 +159,20 @@ font-family: "Inter", sans-serif;
   object-position: 0% 10%;
 }
 }
-
+@media (min-width:769px) and (max-width:1024px)
+{
+   .programs-hero__bg {
+    object-position: 2% 100%;
+  }
+  .programs-hero p {
+    font-size: 15px;
+    width: 300px;
+  }
+}
+@media (min-width:1024px) and (max-width:1509px)
+{
+    .programs-hero p {
+    font-size: 15px;
+    width: 350px;
+  }
+}

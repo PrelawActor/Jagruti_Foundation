@@ -385,10 +385,19 @@ button.donate-btn{
     width:60px;
     height:60px;
 }
-/* .navbar.custom-navbar
-{
-    width: auto;
-
-} */
-
     }
+    @media (min-width:576px) and (max-width:767px)
+    {
+        .brand-section
+        {
+            gap:6px;
+        }
+        .brand-text p
+        {
+            font-size: 9px;
+        }
+       .navbar.custom-navbar .navbar-brand
+        {
+            margin-right: 4px;
+        }
+    } 

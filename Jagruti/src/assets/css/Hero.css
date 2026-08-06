@@ -9,6 +9,7 @@
 }
 
 
+
 .hero-image{
     position: absolute;
     inset: 0;
@@ -266,9 +267,20 @@
 
 }
 @media (min-width:992px) and (max-width:1024px){
+    .stickercontainer
+{
+    text-align: center;
+    width: 100%;
+    margin-bottom: 10px;
+}
+.mc h3
+{
+    text-align: center;
+}
     .mc p
 {
-    width: 100px;
+    width: 100%;
+    text-align: center;
 }
     .hero-image{
 
@@ -276,7 +288,10 @@
         top: 0px;
     object-position:25% center;
     }
-   
+   .mc
+   {
+        margin-inline-end: 20px;
+   }
     .Hero-content
     {
         top: 100px;
@@ -301,8 +316,25 @@
 }
 @media (min-width:1024px)
 {
+    .mc
+   {
+    margin-top: 50px;
+        margin-inline-end: 20px;
+   }
+     .stickercontainer
+{
+    text-align: center;
+    width: 100%;
+    margin-bottom: 10px;
+}
+.mc h3
+{
+    text-align: center;
+}
     .mc p
 {
-    width: 100px;
+    width: 100%;
+    text-align: center;
 }
+
 }
