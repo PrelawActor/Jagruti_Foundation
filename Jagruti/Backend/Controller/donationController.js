@@ -1,8 +1,11 @@
 const validator = require("validator");
-const db = require("../Config/db");
+const mongoose = require("mongoose");
+const PendingDonation = require("../Models/PendingDonation");
+const Donation = require("../Models/Donation");
 const razorpay = require("../Config/razorpay");
 const crypto = require("crypto");
 exports.createOrder = async (req, res) => {
+
 
     try {
 
@@ -76,28 +79,14 @@ if (cleanMessage.length > 500)  {
         const order = await razorpay.orders.create(options);
 
 // Save donor information into pending_donations
-await db.execute(
-    `
-    INSERT INTO pending_donations
-    (
-        razorpay_order_id,
-        name,
-        email,
-        phone,
-        amount,
-        message
-    )
-    VALUES (?, ?, ?, ?, ?, ?)
-    `,
-    [
-    order.id,
-    cleanName,
-    cleanEmail,
-    cleanPhone,
-    donationAmount,
-    cleanMessage
-]
-);
+await PendingDonation.create({
+    razorpay_order_id: order.id,
+    name: cleanName,
+    email: cleanEmail,
+    phone: cleanPhone,
+    amount: donationAmount,
+    message: cleanMessage
+});
 
 return res.status(200).json({
     success: true,
@@ -124,13 +113,13 @@ return res.status(200).json({
 };
 exports.verifyPayment = async (req, res) => {
     
-    let connection;
+    let session;
 
-    try {
+try {
 
-        connection = await db.getConnection();
+    session = await mongoose.startSession();
 
-        await connection.beginTransaction();
+    session.startTransaction();
 
 const {
     razorpay_order_id,
@@ -143,9 +132,9 @@ if (
     !razorpay_payment_id ||
     !razorpay_signature
 ) {
-    await connection.rollback();
-    connection.release();
-    connection = null;
+   await session.abortTransaction();
+session.endSession();
+session = null;
 
     return res.status(400).json({
         success: false,
@@ -165,9 +154,9 @@ if (
 
         if (expectedSignature !== razorpay_signature) {
 
-            await connection.rollback();
-    connection.release();
-            connection = null;
+            await session.abortTransaction();
+session.endSession();
+session = null;
     return res.status(400).json({
         success: false,
         message: "Payment verification failed"
@@ -179,24 +168,20 @@ if (
        // Payment is verified
 
 // Check if payment has already been processed
-const [existingDonation] = await connection.execute(
-    `
-    SELECT id
-    FROM donations
-    WHERE razorpay_payment_id = ?
-       OR razorpay_order_id = ?
-    `,
-    [
-        razorpay_payment_id,
-        razorpay_order_id
-    ]
-);
+const existingDonation = await Donation.findOne(
+    {
+        $or: [
+            { razorpay_payment_id },
+            { razorpay_order_id }
+        ]
+    }
+).session(session);
 
-if (existingDonation.length > 0) {
+if (existingDonation) {
 
-    await connection.rollback();
-    connection.release();
-    connection = null;
+    await session.abortTransaction();
+    session.endSession();
+    session = null;
 
     return res.status(409).json({
         success: false,
@@ -206,65 +191,45 @@ if (existingDonation.length > 0) {
 }
 
 // Get the pending donation
-const [pendingRows] = await connection.execute(
-    `
-    SELECT *
-    FROM pending_donations
-    WHERE razorpay_order_id = ?
-    `,
-    
-    [razorpay_order_id]
-);
+const pendingDonation = await PendingDonation.findOne({
+    razorpay_order_id
+}).session(session);
 
-if (pendingRows.length === 0) {
+if (!pendingDonation) {
 
-    await connection.rollback();
-    connection.release();
-        connection = null;
+    await session.abortTransaction();
+    session.endSession();
+    session = null;
+
     return res.status(404).json({
         success: false,
         message: "Pending donation not found"
     });
 
 }
-
-const pendingDonation = pendingRows[0];
-await connection.execute(
-    `
-    INSERT INTO donations
-    (
-        razorpay_order_id,
-        razorpay_payment_id,
-        name,
-        email,
-        phone,
-        amount,
-        message
-    )
-    VALUES (?, ?, ?, ?, ?, ?, ?)
-    `,
+await Donation.create(
     [
-        razorpay_order_id,
-        razorpay_payment_id,
-        pendingDonation.name,
-        pendingDonation.email,
-        pendingDonation.phone,
-        pendingDonation.amount,
-        pendingDonation.message
-    ]
+        {
+            razorpay_order_id,
+            razorpay_payment_id,
+            name: pendingDonation.name,
+            email: pendingDonation.email,
+            phone: pendingDonation.phone,
+            amount: pendingDonation.amount,
+            message: pendingDonation.message
+        }
+    ],
+    { session }
 );
-await connection.execute(
-    `
-    DELETE FROM pending_donations
-    WHERE razorpay_order_id = ?
-    `,
-    [razorpay_order_id]
+await PendingDonation.deleteOne(
+    { razorpay_order_id },
+    { session }
 );
 
 console.log("Donation moved successfully to donations table.");
-await connection.commit();
-connection.release();
-connection = null;
+await session.commitTransaction();
+session.endSession();
+session = null;
         return res.status(200).json({
 
             success: true,
@@ -275,10 +240,15 @@ connection = null;
 
     } catch (error) {
 
-        if (connection) {
-        await connection.rollback();
-        connection.release();
+        if (session) {
+
+    if (session.inTransaction()) {
+        await session.abortTransaction();
     }
+
+    session.endSession();
+
+}
 
    console.error("Payment verification error:", error);
 
